@@ -8,6 +8,12 @@ DATADIR="${MYSQL_DATADIR:-/var/lib/mysql}"
 
 echo "Using datadir: ${DATADIR}"
 
+echo "Environment summary:"
+echo "  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-<not set>}"
+echo "  MYSQL_DATABASE=${MYSQL_DATABASE:-<not set>}"
+echo "  MYSQL_USER=${MYSQL_USER:-<not set>}"
+echo "  MYSQL_PASSWORD=${MYSQL_PASSWORD:-<not set>}"
+
 if [ ! -d "${DATADIR}/mysql" ]; then
     echo "Data directory not found, initializing MariaDB data files ..."
 
@@ -23,11 +29,6 @@ if [ ! -d "${DATADIR}/mysql" ]; then
     echo "Initialization complete. No init SQL will be executed by this script."
 fi
 
-echo "Environment summary:"
-echo "  MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-<not set>}"
-echo "  MYSQL_DATABASE=${MYSQL_DATABASE:-<not set>}"
-echo "  MYSQL_USER=${MYSQL_USER:-<not set>}"
-echo "  MYSQL_PASSWORD=${MYSQL_PASSWORD:-<not set>}"
 
 echo "Starting MariaDB server in foreground (PID 1)"
 # Exec so that mysqld becomes PID 1 and receives signals from the container
