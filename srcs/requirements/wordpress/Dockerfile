@@ -6,9 +6,22 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # get updates install them and then pulling mariadb and end clean the cache of apt 
 RUN apt-get update && \
-    apt-get upgrade -y && 
+    apt-get upgrade -y && \
+    apt-get install -y php-fpm php-mysql curl wget tar && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY tools/script.sh /script.sh
+WORKDIR /var/www/html
+
+RUN wget https://wordpress.org/latest.tar.gz && \
+    tar -xzf latest.tar.gz && \
+    mv wordpress/* . && \
+    rm -rf wordpress latest.tar.gz
+
+RUN sed -i 's|listen = .*|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf
+
+RUN chown -R www-data:www-data /var/www/html
+
+COPY tools/script.sh /script.sh3
 
 RUN chmod +x /script.sh
 
