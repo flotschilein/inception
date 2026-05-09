@@ -22,3 +22,5 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 RUN chmod +x /script.sh
 
 EXPOSE 443
+
+ENTRYPOINT ["/script.sh"]
