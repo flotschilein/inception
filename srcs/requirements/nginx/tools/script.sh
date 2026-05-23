@@ -9,6 +9,8 @@ echo "Starting NGINX setup ..."
 echo "Environment summary:"
 echo "  DOMAIN_NAME=${DOMAIN_NAME:-<not set>}"
 
+sed -i "s/DOMAIN_NAME_PLACEHOLDER/${DOMAIN_NAME}/" /etc/nginx/nginx.conf
+
 echo "Checking NGINX configuration ..."
 
 nginx -t
