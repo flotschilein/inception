@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # get updates install them and then pulling mariadb and end clean the cache of apt 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y php-fpm php-mysql curl wget tar && \
+    apt-get install -y php-fpm php-mysql php-mysqli curl wget tar && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
@@ -21,7 +21,7 @@ RUN sed -i 's|listen = .*|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf
 
 RUN chown -R www-data:www-data /var/www/html
 
-COPY tools/script.sh /script.sh3
+COPY tools/script.sh /script.sh
 
 RUN chmod +x /script.sh
 

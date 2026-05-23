@@ -34,4 +34,5 @@ echo "Setting permissions ..."
 chown -R www-data:www-data "${WP_DIR}"
 
 echo "Starting PHP-FPM server in foreground (PID 1)"
-exec php-fpm7.4 -F
+FPM_BIN=$(find /usr/sbin -name 'php-fpm*' -type f | head -1)
+exec "$FPM_BIN" -F
