@@ -1,0 +1,68 @@
+services:
+# nginx is the entrypoint
+  nginx:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/nginx
+    image: nginx:inception
+    container_name: nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www/html
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  wordpress:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/wordpress
+    image: wordpress:inception
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www/html
+    env_file:
+      - .env
+    restart: unless-stopped
+
+# database container
+  mariadb:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/mariadb
+    image: mariadb:inception
+    container_name: mariadb
+    networks:
+      - inception
+    volumes:
+      - db-volume:/var/lib/mysql
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  wp-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/fbraune/data/wordpress
+  db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/fbraune/data/mariadb
+
+networks:
+  inception:
+    driver: bridge
