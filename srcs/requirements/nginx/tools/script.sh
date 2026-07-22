@@ -9,7 +9,15 @@ echo "Starting NGINX setup ..."
 echo "Environment summary:"
 echo "  DOMAIN_NAME=${DOMAIN_NAME:-<not set>}"
 
-sed -i "s/DOMAIN_NAME_PLACEHOLDER/${DOMAIN_NAME}/" /etc/nginx/nginx.conf
+if [ ! -f /etc/nginx/ssl/nginx.crt ]; then
+    echo "Generating self-signed SSL certificate for ${DOMAIN_NAME} ..."
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /etc/nginx/ssl/nginx.key \
+        -out /etc/nginx/ssl/nginx.crt \
+        -subj "/C=DE/ST=BW/L=Heilbronn/O=42/OU=Inception/CN=${DOMAIN_NAME}"
+fi
+
+sed -i "s/DOMAIN_NAME_PLACEHOLDER/${DOMAIN_NAME}/g" /etc/nginx/nginx.conf
 
 echo "Checking NGINX configuration ..."
 
