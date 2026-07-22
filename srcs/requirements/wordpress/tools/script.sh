@@ -33,6 +33,11 @@ else
     echo "Configuration already exists, skipping initialization."
 fi
 
+if ! grep -q "WP_REDIS_HOST" "${WP_DIR}/wp-config.php" 2>/dev/null; then
+    echo "Adding Redis configuration ..."
+    sed -i "/^\\/\\* That's all, stop editing/i define('WP_REDIS_HOST', 'redis');\ndefine('WP_REDIS_PORT', 6379);\ndefine('WP_REDIS_PASSWORD', '${REDIS_PASSWORD}');\ndefine('WP_REDIS_TIMEOUT', 1);\ndefine('WP_REDIS_READ_TIMEOUT', 1);\ndefine('WP_REDIS_DATABASE', 0);" "${WP_DIR}/wp-config.php"
+fi
+
 echo "Setting permissions ..."
 chown -R www-data:www-data "${WP_DIR}"
 
@@ -68,6 +73,21 @@ if ! wp core is-installed --path="${WP_DIR}" --allow-root 2>/dev/null; then
     fi
 else
     echo "WordPress already installed, skipping setup."
+fi
+
+if ! wp plugin is-installed redis-cache --path="${WP_DIR}" --allow-root 2>/dev/null; then
+    echo "Installing Redis cache plugin ..."
+    wp plugin install redis-cache --path="${WP_DIR}" --allow-root
+fi
+
+if ! wp plugin is-active redis-cache --path="${WP_DIR}" --allow-root 2>/dev/null; then
+    echo "Activating Redis cache plugin ..."
+    wp plugin activate redis-cache --path="${WP_DIR}" --allow-root
+fi
+
+if ! wp redis status --path="${WP_DIR}" --allow-root 2>/dev/null | grep -q "Connected"; then
+    echo "Enabling Redis object cache ..."
+    wp redis enable --path="${WP_DIR}" --allow-root 2>/dev/null || true
 fi
 
 echo "Starting PHP-FPM server in foreground (PID 1)"

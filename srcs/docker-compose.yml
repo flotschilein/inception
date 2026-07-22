@@ -26,10 +26,23 @@ services:
     container_name: wordpress
     depends_on:
       - mariadb
+      - redis
     networks:
       - inception
     volumes:
       - wp-volume:/var/www/html
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  redis:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/redis
+    image: redis:inception
+    container_name: redis
+    networks:
+      - inception
     env_file:
       - .env
     restart: unless-stopped
