@@ -2,13 +2,17 @@
 
 ## Services Provided
 
-The stack provides three services:
+The stack provides three core services plus bonus services:
 
 | Service | Purpose |
 |---------|---------|
 | **NGINX** | TLS-terminating reverse proxy (HTTPS on port 443) |
 | **WordPress** | Content management system with PHP-FPM |
 | **MariaDB** | Relational database storing WordPress content |
+| **Redis** | In-memory cache for WordPress object caching (bonus) |
+| **FTP (vsftpd)** | File upload to the WordPress volume on port 21 (bonus) |
+| **Adminer** | Database management UI served at `/adminer` (bonus) |
+| **Static site** | Static résumé site served at `/resume` (bonus) |
 
 ## Start and Stop the Project
 
@@ -47,6 +51,16 @@ https://fbraune.42.fr
 ### WordPress Admin Panel
 ```
 https://fbraune.42.fr/wp-admin
+```
+
+### Static Résumé Site
+```
+https://fbraune.42.fr/resume
+```
+
+### Adminer
+```
+https://fbraune.42.fr/adminer
 ```
 
 ## Credentials
