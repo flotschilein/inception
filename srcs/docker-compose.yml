@@ -66,6 +66,18 @@ services:
       - .env
     restart: unless-stopped
 
+  adminer:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/adminer
+    image: adminer:inception
+    container_name: adminer
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    restart: unless-stopped
+
 # database container
   mariadb:
     build:
