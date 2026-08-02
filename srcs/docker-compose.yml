@@ -78,6 +78,16 @@ services:
       - inception
     restart: unless-stopped
 
+  static-site:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/static-site
+    image: static-site:inception
+    container_name: static-site
+    networks:
+      - inception
+    restart: unless-stopped
+
 # database container
   mariadb:
     build:

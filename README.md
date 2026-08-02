@@ -30,6 +30,7 @@ make re       # full rebuild
 - Website: https://fbraune.42.fr
 - WordPress admin: https://fbraune.42.fr/wp-admin
 - Adminer: https://fbraune.42.fr/adminer (bonus)
+- Static résumé site: https://fbraune.42.fr/resume (bonus)
 - FTP: `ftp://fbraune.42.fr` (passive ports 21000-21099, credentials via `FTP_USER`/`FTP_PASSWORD` in `srcs/.env`)
 
 ## Project Description
@@ -42,6 +43,7 @@ This project uses Docker to virtualize three services in isolated containers:
 - **Redis** — in-memory cache for WordPress object caching
 - **FTP (vsftpd)** — file upload to the WordPress volume on port 21 (bonus)
 - **Adminer** — lightweight database management UI served at `/adminer` (bonus)
+- **Static site** — static résumé site served at `/resume` (bonus)
 
 All containers are connected through a dedicated Docker bridge network and use named volumes for persistent storage.
 
