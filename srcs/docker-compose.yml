@@ -47,6 +47,25 @@ services:
       - .env
     restart: unless-stopped
 
+  ftp:
+    build:
+      dockerfile: Dockerfile
+      context: requirements/ftp
+    image: ftp:inception
+    container_name: ftp
+    ports:
+      - "21:21"
+      - "21000-21099:21000-21099"
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www/html
+    env_file:
+      - .env
+    restart: unless-stopped
+
 # database container
   mariadb:
     build:

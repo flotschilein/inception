@@ -29,6 +29,7 @@ make re       # full rebuild
 ### Access
 - Website: https://fbraune.42.fr
 - WordPress admin: https://fbraune.42.fr/wp-admin
+- FTP: `ftp://fbraune.42.fr` (passive ports 21000-21099, credentials via `FTP_USER`/`FTP_PASSWORD` in `srcs/.env`)
 
 ## Project Description
 
@@ -37,6 +38,8 @@ This project uses Docker to virtualize three services in isolated containers:
 - **NGINX** — TLSv1.2/TLSv1.3 reverse proxy, sole entry point on port 443
 - **WordPress + PHP-FPM** — serves the CMS via FastCGI on port 9000
 - **MariaDB** — relational database on port 3306
+- **Redis** — in-memory cache for WordPress object caching
+- **FTP (vsftpd)** — file upload to the WordPress volume on port 21 (bonus)
 
 All containers are connected through a dedicated Docker bridge network and use named volumes for persistent storage.
 
