@@ -145,6 +145,9 @@ inception/
 │       ├── ftp/                # bonus
 │       ├── redis/              # bonus
 │       └── static-site/        # bonus
+│           ├── Dockerfile
+│           ├── conf/nginx.conf
+│           └── website/
 ```
 
 ## Data Persistence
