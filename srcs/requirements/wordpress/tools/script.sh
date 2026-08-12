@@ -44,7 +44,7 @@ chown -R www-data:www-data "${WP_DIR}"
 if ! wp core is-installed --path="${WP_DIR}" --allow-root 2>/dev/null; then
     echo "WordPress is not installed. Running installation ..."
 
-    until mysqladmin ping -h mariadb --silent 2>/dev/null; do
+    until mysqladmin ping -h mariadb -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" --silent 2>/dev/null; do
         echo "Waiting for MariaDB ..."
         sleep 2
     done

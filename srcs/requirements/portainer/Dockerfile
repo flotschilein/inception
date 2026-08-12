@@ -12,7 +12,7 @@ RUN apt-get update && \
 
 # download and extract the portainer CE binary
 RUN curl -L -o /tmp/portainer.tar.gz \
-    https://github.com/portainer/portainer/releases/download/v2.21.5/portainer-ce-2.21.5-linux-amd64.tar.gz && \
+    https://github.com/portainer/portainer/releases/download/2.39.5/portainer-2.39.5-linux-amd64.tar.gz && \
     tar xzf /tmp/portainer.tar.gz -C /opt && \
     rm /tmp/portainer.tar.gz
 

@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y mariadb-server && \
+    rm -rf /var/lib/mysql && \
     rm -rf /var/lib/apt/lists/*
 
 COPY conf/my.cnf /etc/mysql/mariadb.conf.d/my.cnf 
