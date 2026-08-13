@@ -21,6 +21,8 @@ if [ ! -d "${DATADIR}/mysql" ]; then
     done
 
     mysql --socket=/tmp/mysql.sock -u root << stuff
+DROP USER IF EXISTS ''@'localhost';
+DELETE FROM mysql.user WHERE User='';
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
