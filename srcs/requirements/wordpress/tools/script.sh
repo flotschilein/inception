@@ -90,6 +90,9 @@ if ! wp redis status --path="${WP_DIR}" --allow-root 2>/dev/null | grep -q "Conn
     wp redis enable --path="${WP_DIR}" --allow-root 2>/dev/null || true
 fi
 
+echo "Binding PHP-FPM to 0.0.0.0:${WP_FPM_PORT:-9000} ..."
+sed -i "s|^listen = .*|listen = 0.0.0.0:${WP_FPM_PORT:-9000}|" /etc/php/*/fpm/pool.d/www.conf
+
 echo "Starting PHP-FPM server in foreground (PID 1)"
 FPM_BIN=$(find /usr/sbin -name 'php-fpm*' -type f | head -1)
 exec "$FPM_BIN" -F

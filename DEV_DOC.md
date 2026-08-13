@@ -34,6 +34,13 @@ MYSQL_USER=wpuser
 MYSQL_PASSWORD=<strong-db-password>
 WP_ADMIN_USER=fbraune
 WP_ADMIN_PASSWORD=<strong-admin-password>
+# optional port customization
+NGINX_PORT=443
+WP_FPM_PORT=9000
+FTP_PORT=21
+FTP_PASV_MIN=21000
+FTP_PASV_MAX=21099
+PORTAINER_PORT=9000
 ```
 
 ### 3. Add hosts entry
@@ -160,8 +167,8 @@ inception/
 
 ## Data Persistence
 
-- **WordPress files**: Docker named volume `wp-volume` → `/home/fbraune/data/wordpress` on host
-- **MariaDB data**: Docker named volume `db-volume` → `/home/fbraune/data/mariadb` on host
+- **WordPress files**: Docker named volume `srcs_wp-volume` → `/home/fbraune/data/wordpress` on host
+- **MariaDB data**: Docker named volume `srcs_db-volume` → `/home/fbraune/data/mariadb` on host
 - **Portainer data**: Docker named volume `portainer-data` managed by Docker (`/var/lib/docker/volumes/`)
 - The WordPress and MariaDB volumes use the `local` driver with a bind-mount device option
 - Data survives container restarts and rebuilds; only `make clean` removes it

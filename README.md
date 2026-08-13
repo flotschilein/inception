@@ -32,6 +32,8 @@ make re       # full rebuild
 - Adminer: https://fbraune.42.fr/adminer (bonus)
 - Static résumé site: https://fbraune.42.fr/resume (bonus)
 - FTP: `ftp://fbraune.42.fr` (passive ports 21000-21099, credentials via `FTP_USER`/`FTP_PASSWORD` in `srcs/.env`)
+
+Published ports are configurable via `srcs/.env`: `NGINX_PORT` (default 443), `WP_FPM_PORT` (9000), `FTP_PORT` (21), `FTP_PASV_MIN`/`FTP_PASV_MAX` (21000-21099), `PORTAINER_PORT` (9000).
 - Portainer: http://localhost:9000 (bonus)
 
 ## Project Description

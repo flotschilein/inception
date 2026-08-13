@@ -18,6 +18,7 @@ if [ ! -f /etc/nginx/ssl/nginx.crt ]; then
 fi
 
 sed -i "s/DOMAIN_NAME_PLACEHOLDER/${DOMAIN_NAME}/g" /etc/nginx/nginx.conf
+sed -i "s/WP_FPM_PORT_PLACEHOLDER/${WP_FPM_PORT:-9000}/g" /etc/nginx/nginx.conf
 
 echo "Checking NGINX configuration ..."
 

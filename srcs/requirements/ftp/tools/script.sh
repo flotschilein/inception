@@ -11,6 +11,8 @@ echo "  FTP_USER=${FTP_USER:-<not set>}"
 echo "  DOMAIN_NAME=${DOMAIN_NAME:-<not set>}"
 
 sed -i "s/PASV_ADDRESS_PLACEHOLDER/${DOMAIN_NAME}/g" /etc/vsftpd.conf
+sed -i "s/PASV_MIN_PORT_PLACEHOLDER/${FTP_PASV_MIN}/g" /etc/vsftpd.conf
+sed -i "s/PASV_MAX_PORT_PLACEHOLDER/${FTP_PASV_MAX}/g" /etc/vsftpd.conf
 
 mkdir -p /var/run/vsftpd/empty
 
