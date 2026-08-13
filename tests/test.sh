@@ -12,10 +12,17 @@ ENV_FILE="srcs/.env"
 SKIP_START="${SKIP_START:-0}"
 AUTO_START="${AUTO_START:-1}"
 
-GREEN="\033[32m"
-RED="\033[31m"
-BOLD="\033[1m"
-RESET="\033[0m"
+if [ -t 1 ]; then
+    GREEN=$'\033[32m'
+    RED=$'\033[31m'
+    BOLD=$'\033[1m'
+    RESET=$'\033[0m'
+else
+    GREEN=""
+    RED=""
+    BOLD=""
+    RESET=""
+fi
 
 PASS=0
 FAIL=0
