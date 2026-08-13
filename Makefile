@@ -21,6 +21,11 @@ fclean: clean
 
 re: fclean all
 
+DATA_DIR = /home/fbraune/data
+
+reset: fclean
+	rm -rf $(DATA_DIR)/wordpress $(DATA_DIR)/mariadb
+
 help:
 	@echo "============================================================"
 	@echo "  Inception - available targets"
@@ -31,6 +36,8 @@ help:
 	@echo "  make down       = stop containers (keep data)"
 	@echo "  make clean      = stop containers + remove volumes"
 	@echo "  make fclean     = clean + prune all Docker resources"
+	@echo "  make reset      = full wipe: containers, volumes, images,"
+	@echo "                    + delete all data in /home/fbraune/data"
 	@echo "  make re         = full rebuild from scratch"
 	@echo ""
 	@echo "============================================================"
@@ -81,4 +88,4 @@ help:
 	@echo "    how:   http://localhost:9000"
 	@echo ""
 
-.PHONY: all build up down clean fclean re help
+.PHONY: all build up down clean fclean re reset help
