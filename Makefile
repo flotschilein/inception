@@ -26,6 +26,9 @@ DATA_DIR = /home/fbraune/data
 reset: fclean
 	rm -rf $(DATA_DIR)/wordpress $(DATA_DIR)/mariadb
 
+test:
+	bash tests/test.sh
+
 help:
 	@echo "============================================================"
 	@echo "  Inception - available targets"
@@ -39,6 +42,7 @@ help:
 	@echo "  make reset      = full wipe: containers, volumes, images,"
 	@echo "                    + delete all data in /home/fbraune/data"
 	@echo "  make re         = full rebuild from scratch"
+	@echo "  make test       = run the end-to-end test suite (tests/test.sh)"
 	@echo ""
 	@echo "============================================================"
 	@echo "  Services"
@@ -88,4 +92,4 @@ help:
 	@echo "    how:   http://localhost:9000"
 	@echo ""
 
-.PHONY: all build up down clean fclean re reset help
+.PHONY: all build up down clean fclean re reset test help
