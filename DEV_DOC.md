@@ -36,12 +36,7 @@ WP_ADMIN_USER=fbraune
 WP_ADMIN_PASSWORD=<strong-admin-password>
 ```
 
-### 3. Configure secrets (optional)
-Create files in the `secrets/` directory for Docker secrets integration.
-
-Example files are provided as templates — modify them with your actual credentials.
-
-### 4. Add hosts entry
+### 3. Add hosts entry
 ```bash
 echo "127.0.0.1 fbraune.42.fr" | sudo tee -a /etc/hosts
 ```
@@ -82,6 +77,8 @@ docker compose -f srcs/docker-compose.yml logs -f
 docker exec -it nginx /bin/bash
 docker exec -it wordpress /bin/bash
 docker exec -it mariadb /bin/bash
+docker exec -it redis sh
+docker exec -it ftp /bin/bash
 ```
 
 ## Managing Volumes
@@ -95,11 +92,13 @@ docker volume ls
 ```bash
 docker volume inspect srcs_wp-volume
 docker volume inspect srcs_db-volume
+docker volume inspect srcs_portainer-data
 ```
 
 Volumes are stored on the host at:
 - `/home/fbraune/data/wordpress` — WordPress site files
 - `/home/fbraune/data/mariadb` — MariaDB database files
+- Portainer data is kept in the Docker-managed named volume `portainer-data`
 
 ### Backup a volume
 ```bash
@@ -122,37 +121,47 @@ inception/
 ├── README.md
 ├── USER_DOC.md
 ├── DEV_DOC.md
-├── secrets/
-│   ├── credentials.txt
-│   ├── db_password.txt
-│   └── db_root_password.txt
-├── srcs/
-│   ├── .env                    # environment variables (gitignored)
-│   ├── docker-compose.yml
-│   └── requirements/
-│       ├── nginx/
-│       │   ├── Dockerfile
-│       │   ├── conf/nginx.conf
-│       │   └── tools/script.sh
-│       ├── wordpress/
-│       │   ├── Dockerfile
-│       │   └── tools/script.sh
-│       ├── mariadb/
-│       │   ├── Dockerfile
-│       │   ├── conf/my.cnf
-│       │   └── tools/script.sh
-│       ├── adminer/            # bonus
-│       ├── ftp/                # bonus
-│       ├── redis/              # bonus
-│       └── static-site/        # bonus
-│           ├── Dockerfile
-│           ├── conf/nginx.conf
-│           └── website/
+└── srcs/
+    ├── .env                    # environment variables (gitignored)
+    ├── docker-compose.yml
+    └── requirements/
+        ├── nginx/
+        │   ├── Dockerfile
+        │   ├── conf/nginx.conf
+        │   └── tools/script.sh
+        ├── wordpress/
+        │   ├── Dockerfile
+        │   └── tools/script.sh
+        ├── mariadb/
+        │   ├── Dockerfile
+        │   ├── conf/my.cnf
+        │   └── tools/script.sh
+        ├── redis/              # bonus
+        │   ├── Dockerfile
+        │   ├── conf/redis.conf
+        │   └── tools/script.sh
+        ├── ftp/                # bonus
+        │   ├── Dockerfile
+        │   ├── conf/vsftpd.conf
+        │   └── tools/script.sh
+        ├── adminer/            # bonus
+        │   ├── Dockerfile
+        │   └── tools/script.sh
+        ├── static-site/        # bonus
+        │   ├── Dockerfile
+        │   ├── conf/nginx.conf
+        │   └── website/
+        │       ├── index.html
+        │       └── style.css
+        └── portainer/          # bonus
+            ├── Dockerfile
+            └── .dockerignore
 ```
 
 ## Data Persistence
 
 - **WordPress files**: Docker named volume `wp-volume` → `/home/fbraune/data/wordpress` on host
 - **MariaDB data**: Docker named volume `db-volume` → `/home/fbraune/data/mariadb` on host
-- Both volumes use the `local` driver with a bind-mount device option
+- **Portainer data**: Docker named volume `portainer-data` managed by Docker (`/var/lib/docker/volumes/`)
+- The WordPress and MariaDB volumes use the `local` driver with a bind-mount device option
 - Data survives container restarts and rebuilds; only `make clean` removes it

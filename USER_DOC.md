@@ -13,6 +13,7 @@ The stack provides three core services plus bonus services:
 | **FTP (vsftpd)** | File upload to the WordPress volume on port 21 (bonus) |
 | **Adminer** | Database management UI served at `/adminer` (bonus) |
 | **Static site** | Static résumé site served at `/resume` (bonus) |
+| **Portainer** | Container management UI on host port 9000 (bonus) |
 
 ## Start and Stop the Project
 
@@ -63,19 +64,31 @@ https://fbraune.42.fr/resume
 https://fbraune.42.fr/adminer
 ```
 
+### Portainer
+```
+http://localhost:9000
+```
+
 ## Credentials
 
-Sensitive data is stored in the `secrets/` directory at the project root, and environment variables are loaded from `srcs/.env`.
+All configuration and credentials are loaded from the gitignored `srcs/.env` file.
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
 | `DOMAIN_NAME` | Domain for the website | `fbraune.42.fr` |
-| `MYSQL_ROOT_PASSWORD` | MariaDB root password | set in secrets |
-| `MYSQL_USER` | WordPress database user | `wpuser` |
-| `MYSQL_PASSWORD` | WordPress database password | set in secrets |
+| `MYSQL_ROOT_PASSWORD` | MariaDB root password | set in `.env` |
 | `MYSQL_DATABASE` | Database name | `wordpress` |
-| `WP_ADMIN_USER` | WordPress admin username | `fbraune` |
-| `WP_ADMIN_PASSWORD` | WordPress admin password | set in secrets |
+| `MYSQL_USER` | WordPress database user | `wpuser` |
+| `MYSQL_PASSWORD` | WordPress database password | set in `.env` |
+| `WP_ADMIN_USER` | WordPress admin username | `admin` |
+| `WP_ADMIN_PASSWORD` | WordPress admin password | set in `.env` |
+| `WP_ADMIN_EMAIL` | WordPress admin email | set in `.env` |
+| `WP_USER` | Second WordPress user (author) | `editor` |
+| `WP_USER_PASSWORD` | Second WordPress user password | set in `.env` |
+| `WP_USER_EMAIL` | Second WordPress user email | set in `.env` |
+| `REDIS_PASSWORD` | Redis password | set in `.env` |
+| `FTP_USER` | FTP login | `ftpuser` |
+| `FTP_PASSWORD` | FTP password | set in `.env` |
 
 ## Check Services Are Running
 
@@ -83,12 +96,17 @@ Sensitive data is stored in the `secrets/` directory at the project root, and en
 docker compose -f srcs/docker-compose.yml ps
 ```
 
-Expected output — all three services should show `Up`:
+Expected output — all eight services should show `Up`:
 ```
-NAME          STATUS
-nginx         Up
-wordpress     Up
-mariadb       Up
+NAME            STATUS
+nginx           Up
+wordpress       Up
+redis           Up
+ftp             Up
+adminer         Up
+static-site     Up
+portainer       Up
+mariadb         Up
 ```
 
 ### View Logs

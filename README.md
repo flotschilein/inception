@@ -2,7 +2,7 @@
 
 ## Description
 
-Inception is a system administration project that involves setting up a small infrastructure of Docker containers to host a WordPress website. The project uses Docker Compose to orchestrate multiple services — NGINX with TLS, WordPress with PHP-FPM, and MariaDB — each running in its own dedicated container built from custom Dockerfiles based on Debian Bookworm.
+Inception is a system administration project that involves setting up a small infrastructure of Docker containers to host a WordPress website. The project uses Docker Compose to orchestrate multiple services — NGINX with TLS, WordPress with PHP-FPM, MariaDB, Redis, FTP (vsftpd), Adminer, a static résumé site, and Portainer — each running in its own dedicated container built from custom Dockerfiles based on Debian Bookworm (Alpine for Redis).
 
 The infrastructure is designed with security, isolation, and persistence in mind: NGINX is the only entry point (port 443), containers restart on failure, and persistent data is stored in Docker named volumes mapped to the host machine.
 
@@ -32,18 +32,20 @@ make re       # full rebuild
 - Adminer: https://fbraune.42.fr/adminer (bonus)
 - Static résumé site: https://fbraune.42.fr/resume (bonus)
 - FTP: `ftp://fbraune.42.fr` (passive ports 21000-21099, credentials via `FTP_USER`/`FTP_PASSWORD` in `srcs/.env`)
+- Portainer: http://localhost:9000 (bonus)
 
 ## Project Description
 
-This project uses Docker to virtualize three services in isolated containers:
+This project uses Docker to virtualize eight services in isolated containers:
 
 - **NGINX** — TLSv1.2/TLSv1.3 reverse proxy, sole entry point on port 443
 - **WordPress + PHP-FPM** — serves the CMS via FastCGI on port 9000
 - **MariaDB** — relational database on port 3306
-- **Redis** — in-memory cache for WordPress object caching
+- **Redis** — in-memory cache for WordPress object caching (bonus)
 - **FTP (vsftpd)** — file upload to the WordPress volume on port 21 (bonus)
 - **Adminer** — lightweight database management UI served at `/adminer` (bonus)
 - **Static site** — static résumé site served at `/resume` (bonus)
+- **Portainer** — container management UI on host port 9000 (bonus)
 
 All containers are connected through a dedicated Docker bridge network and use named volumes for persistent storage.
 
@@ -65,7 +67,7 @@ All containers are connected through a dedicated Docker bridge network and use n
 | Can be rotated without rebuilding images | Require restart or rebuild to change |
 | More secure for production | Simpler for development |
 
-In this project, secrets are stored in the `secrets/` directory and can be integrated with Docker's built-in secrets mechanism for enhanced security.
+In this project, credentials are loaded from the gitignored `srcs/.env` file. A `secrets/` directory is reserved in `.gitignore` for optional integration with Docker's built-in secrets mechanism for enhanced security.
 
 ### Docker Network vs Host Network
 
